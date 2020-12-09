@@ -1,0 +1,50 @@
+import java.util.Vector;
+/*
+* code to find the minimum difference of subset 
+* of a given array using subset sum problem
+* */
+public class MinimumSubsetSum {
+    public static void main(String...k){
+        int[] arr = {1,2,8,5,7};
+        int sum = 0;
+        for(int num : arr){
+            sum+=num;
+        }
+        System.out.println("Minimum subset sum = " + minimumSubsetSum(arr,sum));
+    }
+    public static int minimumSubsetSum(int[] arr , int sum){
+        int n = arr.length;
+        Boolean[][] t = new Boolean[n+1][sum+1];
+        for(int i = 0 ; i < n+1 ; i++){
+            for(int j = 0 ; j < sum+1 ; j++){
+                if(i == 0){
+                    t[i][j]=false;
+                }
+                if(j == 0){
+                    t[i][j] = true;
+                }
+            }
+        }
+        for(int i = 1 ; i < n+1 ; i++){
+            for(int j = 1 ; j < sum+1 ; j++){
+                if(arr[i-1] <= j) {
+                    t[i][j] = t[i-1][j] || t[i-1][j-arr[i-1]];
+                }
+                else{
+                    t[i][j] = t[i-1][j];
+                }
+            }
+        }
+        Vector<Integer> vec = new Vector<>();
+        for(int i = 0 ; i < sum/2+1 ; i++){
+          if(t[n][i]){
+              vec.add(i);
+          }
+        }
+        int min = Integer.MAX_VALUE;
+        for(int i = 0 ; i < vec.size() ; i++){
+            min = Math.min(min, sum-2*vec.get(i));
+        }
+        return min;
+    }
+}
