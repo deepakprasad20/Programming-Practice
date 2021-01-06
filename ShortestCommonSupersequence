@@ -1,0 +1,34 @@
+/*
+* This programme is used to find the shortest length of common supersequence
+*  eg. let x = "geek" and y = "eke" then the shortest supersequence = "geeke"
+*       whose length is 5.
+* */
+public class ShortestCommonSuperSequence {
+
+    public static void main(String[] args){
+        String x = "geek";
+        String y = "kick";
+        System.out.println("Length of longest common supersequence = " + (x.length()+y.length()-lcs(x,x.length(),y,y.length())));
+    }
+
+    private static int lcs(String x, int m, String y, int n) {
+        int[][] arr = new int[m+1][n+1];
+        for(int i = 0 ; i < m+1 ; i++){
+            for(int j = 0 ; j < n+1 ; j++){
+                if(i == 0 || j == 0){
+                    arr[i][j] = 0;
+                }
+            }
+        }
+        for(int i = 1 ; i < m+1 ; i++){
+            for(int j = 1 ; j < n+1 ; j++){
+                if(x.charAt(i-1) == y.charAt(j-1)){
+                    arr[i][j] = 1+arr[i-1][j-1];
+                } else{
+                    arr[i][j] = Math.max(arr[i-1][j] , arr[i][j-1]);
+                }
+            }
+        }
+        return arr[m][n];
+    }
+}
