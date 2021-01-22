@@ -1,0 +1,35 @@
+/*
+* This programme is used to calculate Matrix Chain Multiplication using memoization.
+* */
+public class MCMUsingMemoization {
+    //Here initialize array with 1001 as the given constraints for the size of cost array as 1< n < 1000;
+    static int[][] t = new int[1001][1001];
+    public static  void main(String[] args){
+        // initializing array with -1;
+        for(int i = 0 ; i < 1001 ; i++){
+            for(int j = 0 ; j < 1001 ; j++){
+                t[i][j] = -1;
+            }
+        }
+        int[] arr = {40, 20, 30, 10, 30};
+        System.out.println("Minimum cost required to multiply above matrix are : " + solve(arr,1,arr.length-1));
+    }
+
+    private static int solve(int[] arr, int i, int j) {
+        if(i >= j){
+            return 0;
+        }
+        if(t[i][j] != -1){
+            return t[i][j];
+        }
+        int min = Integer.MAX_VALUE;
+        for(int k = i ; k < j ; k++){
+            int tmp = solve(arr,i,k) + solve(arr,k+1,j) + (arr[i-1]*arr[k]*arr[j]);
+            if(tmp < min){
+                min = tmp;
+            }
+        }
+        t[i][j] = min;
+        return min;
+    }
+}
